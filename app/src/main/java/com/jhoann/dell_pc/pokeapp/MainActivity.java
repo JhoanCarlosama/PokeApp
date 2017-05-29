@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     if (aptoParaCargar) {
                         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                             Log.i(TAG, "Llegamos al final.");
+
                             aptoParaCargar = false;
                             offset +=20;
                             obtenerDatos(offset);
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void obtenerDatos(int offset) {
+    public void obtenerDatos(int offset) {
         PokeapiService service = retrofit.create(PokeapiService.class);
         Call<PokemonRespuesta> pokemonRespuestaCall = service.obtenerListaPokemon(20, offset);
 

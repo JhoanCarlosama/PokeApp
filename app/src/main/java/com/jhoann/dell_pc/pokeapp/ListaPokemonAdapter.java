@@ -1,6 +1,5 @@
 package com.jhoann.dell_pc.pokeapp;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -67,7 +66,6 @@ public class ListaPokemonAdapter extends RecyclerView.Adapter<ListaPokemonAdapte
                 Intent intent = new Intent(context,ResumenPokemon.class);
                 intent.putExtra("id",p.getNumber());
                 context.startActivity(intent);
-                Toast.makeText(context, "asdaskdjaskdasjdkslad", Toast.LENGTH_SHORT).show();
             }
         });
     }

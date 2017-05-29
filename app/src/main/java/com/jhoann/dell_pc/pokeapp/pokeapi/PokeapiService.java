@@ -18,6 +18,6 @@ public interface PokeapiService {
     @GET("pokemon")
     Call<PokemonRespuesta> obtenerListaPokemon(@Query("limit") int limit, @Query("offset") int offset);
 
-    @GET("pokemon/{1}/")
+    @GET("pokemon/{id}/")
     Call<Pokemon> obtenerPokemon(@Path("id") int id);
 }

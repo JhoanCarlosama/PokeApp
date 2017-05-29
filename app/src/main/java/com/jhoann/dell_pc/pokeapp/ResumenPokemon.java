@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.jhoann.dell_pc.pokeapp.models.Pokemon;
 import com.jhoann.dell_pc.pokeapp.pokeapi.PokeapiService;
 
+import java.text.DecimalFormat;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResumenPokemon extends AppCompatActivity {
 
-    private TextView tv_nombrePokemon, tv_habilidad, tv_tipo, tv_peso, tv_altura, tv_id;
+    private TextView tv_nombrePokemon, tv_habilidad, tv_tipo, tv_peso, tv_altura;
     private Retrofit retrofit;
     private static final String TAG = "POKEDEX";
 
@@ -25,7 +27,6 @@ public class ResumenPokemon extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumen_pokemon);
-        tv_id = (TextView)findViewById(R.id.tv_id);
         tv_nombrePokemon = (TextView) findViewById(R.id.tv_nombrePokemon);
         tv_habilidad = (TextView) findViewById(R.id.tv_habilidad);
         tv_tipo = (TextView) findViewById(R.id.tv_tipo);
@@ -48,19 +49,25 @@ public class ResumenPokemon extends AppCompatActivity {
 
     public void obtenerDatosPokemon(int id) {
         PokeapiService service = retrofit.create(PokeapiService.class);
-        Call<Pokemon> pokemon = service.obtenerPokemon(id);
+        final Call<Pokemon> pokemon = service.obtenerPokemon(id);
 
         pokemon.enqueue(new Callback<Pokemon>() {
             @Override
             public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+
                 if (response.isSuccessful()) {
                     Pokemon pokemon = response.body();
-                    tv_id.setText(pokemon.getId().toString());
                     tv_nombrePokemon.setText(pokemon.getName());
-                    tv_habilidad.setText(pokemon.getAbilities().get(0).getAbility().getName());
-                    tv_tipo.setText(pokemon.getTypes().get(0).getType().getName());
-                    tv_altura.setText(pokemon.getHeight().toString());
-                    tv_peso.setText(pokemon.getWeight().toString());
+                    tv_habilidad.setText("Habilidad: " + pokemon.getAbilities().get(0).getAbility().getName());
+                    tv_tipo.setText("Tipo: " + pokemon.getTypes().get(0).getType().getName());
+                    String dato1 = pokemon.getHeight();
+                    Double inDouble = Double.parseDouble(dato1);
+                    Double altura = ((inDouble * 10)/100);
+                    tv_altura.setText("Altura: " + altura + " m");
+                    String dato2 = pokemon.getWeight().toString();
+                    Double inDouble2 = Double.parseDouble(dato2);
+                    Double peso = ((inDouble2 * 10)/100);
+                    tv_peso.setText("Peso: " + peso + " kg");
 
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody());

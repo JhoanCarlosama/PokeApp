@@ -14,6 +14,9 @@ public class Pokemon {
     private String url;
     private String weight;
     private String height;
+    private ArrayList<Habilidad> abilities;
+    private ArrayList<Tipo> types;
+
 
     public Integer getId() {
         return id;
@@ -22,9 +25,6 @@ public class Pokemon {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    private ArrayList<Habilidad> abilities;
-    private ArrayList<Tipo> types;
 
     public ArrayList<Habilidad> getAbilities() {
         return abilities;
