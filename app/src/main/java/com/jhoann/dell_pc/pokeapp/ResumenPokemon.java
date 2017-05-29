@@ -1,15 +1,23 @@
 package com.jhoann.dell_pc.pokeapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jhoann.dell_pc.pokeapp.models.Pokemon;
 import com.jhoann.dell_pc.pokeapp.pokeapi.PokeapiService;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,10 +25,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.R.attr.x;
+
 public class ResumenPokemon extends AppCompatActivity {
 
     private TextView tv_nombrePokemon, tv_habilidad, tv_tipo, tv_peso, tv_altura;
     private Retrofit retrofit;
+
+    private ArrayList<Pokemon> dataset;
+    private Context context;
     private static final String TAG = "POKEDEX";
 
     @Override
@@ -45,9 +58,10 @@ public class ResumenPokemon extends AppCompatActivity {
                 obtenerDatosPokemon(elId);
         }
 
+
     }
 
-    public void obtenerDatosPokemon(int id) {
+    public void obtenerDatosPokemon(final int id) {
         PokeapiService service = retrofit.create(PokeapiService.class);
         final Call<Pokemon> pokemon = service.obtenerPokemon(id);
 
@@ -80,4 +94,27 @@ public class ResumenPokemon extends AppCompatActivity {
             }
         });
     }
+
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final Pokemon p = dataset.get(position);
+        //para descargar la imagen usando glide
+        Glide.with(context)
+                .load("http://pokeapi.co/media/sprites/pokemon/" + p.getNumber() + ".png")
+                .centerCrop()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.fotoPokemon);
+        Toast.makeText(this, p.getNumber(), Toast.LENGTH_LONG);
+    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView fotoPokemon;
+        public ViewHolder (View itemView){
+            super(itemView);
+
+            fotoPokemon = (ImageView) itemView.findViewById(R.id.fotoPokemon);
+        }
+
+    }
+
 }

@@ -100,6 +100,16 @@
                 tools:layout_editor_absoluteX="160dp"
                 tools:layout_editor_absoluteY="93dp" />
 
+            <ImageView
+                android:id="@+id/fotoPokemon"
+                android:layout_width="101dp"
+                android:layout_height="86dp"
+                android:layout_x="108dp"
+                android:layout_y="116dp"
+                android:background="@mipmap/ic_launcher" />
+
         </AbsoluteLayout>
     </android.support.v7.widget.CardView>
+
+
 </AbsoluteLayout>
